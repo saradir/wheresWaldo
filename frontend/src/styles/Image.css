@@ -1,0 +1,18 @@
+.image-wrapper {
+  max-width: 100%;
+  display: inline-block;
+
+  justify-content: center;
+}
+
+.image-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  position: relative
+}
+
+.hitbox {
+  border: 1px black solid;
+  position: absolute;
+}
