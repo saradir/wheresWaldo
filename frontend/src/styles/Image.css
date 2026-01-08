@@ -1,18 +1,22 @@
 .image-wrapper {
-  max-width: 100%;
+  position: relative;
   display: inline-block;
-
-  justify-content: center;
+  max-width: 100%;
 }
 
 .image-wrapper img {
   max-width: 100%;
   height: auto;
   display: block;
-  position: relative
+
 }
 
 .hitbox {
   border: 1px black solid;
   position: absolute;
+}
+
+.image-column {
+  flex: 3;
+  display: flex;
 }

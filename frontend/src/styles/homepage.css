@@ -1,0 +1,16 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.content-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.overlay{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}

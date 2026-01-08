@@ -1,7 +1,8 @@
 import crowdImg from "../assets/crowd.png";
 import { useRef, useState } from "react";
 import "../styles/Image.css"
-
+import "../styles/homepage.css"
+import "../styles/sidebar.css"
 function Homepage(){
 
     const [showHitbox, setShowHitbox] = useState(false);
@@ -53,20 +54,32 @@ function Homepage(){
     }
     const imgRef = useRef(null);
     return(
-        <>
-            <div className="image-wrapper">
-                <img src={crowdImg} ref={imgRef} alt="crowd" onClick={(e) => handleClick(e)} />
+
+
+        <div className="homepage">
+            <nav>
+                placeholder
+            </nav>
+            <div className="content-container">
+                <div className="image-column">
+                    <div className="image-wrapper">
+                        <img src={crowdImg} ref={imgRef} alt="crowd" onClick={(e) => handleClick(e)} />
+                        <div className="overlay">
+                            { showHitbox && <div className="hitbox" style={{
+                                left: `${hitboxDims.left}px`,
+                                top: `${hitboxDims.top}px`,
+                                width: `${hitboxDims.width}px`,
+                                height: `${hitboxDims.height}px`
+                                }}>
+                            </div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="sidebar">
+                    Placeholder
+                </div>
             </div>
-
-            { showHitbox && <div className="hitbox" style={{
-                left: `${hitboxDims.left}px`,
-                top: `${hitboxDims.top}px`,
-                width: `${hitboxDims.width}px`,
-                height: `${hitboxDims.height}px`
-
-            }}>
-                </div>}
-        </>
+        </div>
     )
 }
 
