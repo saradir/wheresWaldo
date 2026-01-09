@@ -1,8 +1,10 @@
 import crowdImg from "../assets/crowd.png";
+import Sidebar from "./sidebar";
 import { useRef, useState } from "react";
 import "../styles/Image.css"
-import "../styles/homepage.css"
-import "../styles/sidebar.css"
+import "../styles/Homepage.css"
+import "../styles/Sidebar.css"
+
 function Homepage(){
 
     const [showHitbox, setShowHitbox] = useState(false);
@@ -10,7 +12,6 @@ function Homepage(){
 
     const [mode, setMode] = useState("play");
     const [startPoint, setStart] = useState(null);
-    const [endPoint, setEnd] = useState(null);
 
     const HITBOX_WIDTH = 0.05;
     const HITBOX_HEIGHT = 0.05;
@@ -147,9 +148,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <div className="sidebar">
-                    Placeholder
-                </div>
+                <Sidebar />
             </div>
         </div>
     )
