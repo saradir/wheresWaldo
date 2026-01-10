@@ -12,6 +12,8 @@ function Homepage(){
 
     const [mode, setMode] = useState("play");
     const [startPoint, setStart] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const [inGame, setInGame] = useState(false);
 
     const HITBOX_WIDTH = 0.05;
     const HITBOX_HEIGHT = 0.05;
@@ -23,6 +25,12 @@ function Homepage(){
             width: 0.0869140625,
             height: 0.2626953125
         }
+
+    function handleNewGame(){
+        setInGame(true);
+        setStartTime(Date.now());
+        console.log("starting new game");
+    }
 
     // Returns normalized coordinates between 0 and 1
     function getCoords(e){
@@ -148,7 +156,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar />
+                <Sidebar handleNewGame={handleNewGame} startTime={startTime}/>
             </div>
         </div>
     )
