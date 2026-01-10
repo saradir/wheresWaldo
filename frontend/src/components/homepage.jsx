@@ -13,6 +13,8 @@ function Homepage(){
     const [mode, setMode] = useState("play");
     const [startPoint, setStart] = useState(null);
     const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
+    const [message, setMessage] = useState(null);
     const [inGame, setInGame] = useState(false);
 
     const HITBOX_WIDTH = 0.05;
@@ -29,7 +31,9 @@ function Homepage(){
     function handleNewGame(){
         setInGame(true);
         setStartTime(Date.now());
-        console.log("starting new game");
+        setEndTime(null);
+        setShowHitbox(false);
+        setMessage(null);
     }
 
     // Returns normalized coordinates between 0 and 1
@@ -130,7 +134,16 @@ function Homepage(){
         setShowHitbox(true);
         console.log(coords);
         setHitboxDims(getHitbox(coords));
-        if(calculateHit(coords, overallMan)) console.log("good!");
+
+        // Handle user input
+        if(!inGame) return;
+        if(calculateHit(coords, overallMan)) {
+            setMessage("Good!");
+            setInGame(false);
+            setEndTime(Date.now());
+        } else{
+            setMessage("Not quite!");
+        }
 
     }
     const imgRef = useRef(null);
@@ -156,7 +169,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar handleNewGame={handleNewGame} startTime={startTime}/>
+                <Sidebar handleNewGame={handleNewGame} startTime={startTime} endTime={endTime} message={message}/>
             </div>
         </div>
     )

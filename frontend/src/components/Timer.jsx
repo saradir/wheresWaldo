@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
 
-function Timer({startTime}){
+function Timer({startTime, endTime}){
 
 
     const elapsed = startTime? Date.now() - startTime : 0
     const [tick, setTick] = useState(0);
 
-    function formatTime(){
-        const totalSeconds = Math.floor(elapsed / 1000);
+
+    function formatTime(time){
+        const totalSeconds = Math.floor(time / 1000);
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60
 
         const secondsString = (seconds < 10)? `0${seconds}` : `${seconds}`
         const minutesString = (minutes < 10)? `0${minutes}`: `${minutes}`
-        return {minutesString, secondsString}
+        return `${minutesString}:${secondsString}`
     }
     useEffect(() => {
-        if(!startTime) return;
+        if(!startTime || endTime) return;
         const interval = setInterval(() => setTick(v => v + 1), 1000);
     
         return () => clearInterval(interval);
-    }, [startTime]);
+    }, [startTime, endTime]);
 
     return(
-
-        <p className="timer">{formatTime().minutesString}:{formatTime().secondsString}</p>
+        endTime
+        ? <p className="timer">{formatTime(endTime - startTime)}</p>
+        : <p className="timer">{formatTime(elapsed)}</p>
   
     )
 }
