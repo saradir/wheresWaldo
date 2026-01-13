@@ -19,7 +19,6 @@ function Homepage(){
     const [message, setMessage] = useState(null);
     const [inGame, setInGame] = useState(false);
     const [game, setGame] = useState(null);
-    const [target, setTarget] = useState(null);
     const GAME_MODE = "!local";
     const imgRef = useRef(null);
 
@@ -73,7 +72,6 @@ function Homepage(){
         : await fetchGame();
         
         setGame(game);
-        setTarget(game.target);
         setInGame(true);
         
         setStartTime(game.startTime);
@@ -183,7 +181,7 @@ function Homepage(){
 
         // Handle user input
         if(!inGame) return;
-        if(calculateHit(coords, target)) {
+        if(calculateHit(coords, game.target)) {
             setMessage("Good!");
             setInGame(false);
             setEndTime(Date.now());
