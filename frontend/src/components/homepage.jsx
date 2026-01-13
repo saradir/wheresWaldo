@@ -1,6 +1,7 @@
 import crowdImg from "../assets/crowd.png";
 import Sidebar from "./sidebar";
 import { useRef, useState } from "react";
+
 import "../styles/Image.css"
 import "../styles/Homepage.css"
 import "../styles/Sidebar.css"
@@ -9,6 +10,7 @@ function Homepage(){
 
     const [showHitbox, setShowHitbox] = useState(false);
     const [hitboxDims, setHitboxDims] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const [mode, setMode] = useState("play");
     const [startPoint, setStart] = useState(null);
@@ -16,21 +18,64 @@ function Homepage(){
     const [endTime, setEndTime] = useState(null);
     const [message, setMessage] = useState(null);
     const [inGame, setInGame] = useState(false);
+    const [game, setGame] = useState(null);
+    const [target, setTarget] = useState(null);
+    const GAME_MODE = "!local";
 
     const HITBOX_WIDTH = 0.05;
     const HITBOX_HEIGHT = 0.05;
 
 
-    const overallMan = {
+
+    function createLocalGame(){
+        const demo_target = {
+            id: "001",
+            name: "overall_man",
             left:0.431640625,
             top: 0.7036196319750567,
             width: 0.0869140625,
             height: 0.2626953125
         }
+        const gameId = "000"
+        const startTime = Date.now()
+        const endTime = null;
+        const status = "ongoing"
+        const target = demo_target
+        return {gameId, startTime, endTime, status, target};
+    }
 
-    function handleNewGame(){
+    async function fetchGame(){
+        try{
+            const response = await fetch(`${import.meta.env.VITE_API_SERVER}/api/games/new`,{
+            method: "post",
+        });
+
+        const data = await response.json();
+
+        if(!response.ok){
+            setMessage(data.message);
+            return;
+        }
+        return data;
+        }
+        catch (err){
+            setMessage(err.message);
+        }
+    }
+
+
+
+    async function handleNewGame(){
+        
+        const game = GAME_MODE === "local"
+        ? createLocalGame()
+        : await fetchGame();
+        
+        setGame(game);
+        setTarget(game.target);
         setInGame(true);
-        setStartTime(Date.now());
+        
+        setStartTime(game.startTime);
         setEndTime(null);
         setShowHitbox(false);
         setMessage(null);
@@ -137,7 +182,7 @@ function Homepage(){
 
         // Handle user input
         if(!inGame) return;
-        if(calculateHit(coords, overallMan)) {
+        if(calculateHit(coords, target)) {
             setMessage("Good!");
             setInGame(false);
             setEndTime(Date.now());
