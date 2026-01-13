@@ -13,7 +13,7 @@ targets.push(target_001);
 
 // Randomly selects target to find
 function getTarget(){
-    const index = Math.round(Math.random() * targets.length);
+    const index = Math.floor(Math.random() * targets.length);
     return targets[index];
 }
 export function startGame(req, res){
@@ -30,7 +30,7 @@ export function startGame(req, res){
 export function endGame(req, res){
 
     const endTime = Date.now();
-    const game = games[req.body.gameId];
+    const game = games[req.params.gameId];
     if(!game)  return res.status(404).json({
         message: "game not found"
     });

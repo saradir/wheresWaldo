@@ -21,6 +21,7 @@ function Homepage(){
     const [game, setGame] = useState(null);
     const [target, setTarget] = useState(null);
     const GAME_MODE = "!local";
+    const imgRef = useRef(null);
 
     const HITBOX_WIDTH = 0.05;
     const HITBOX_HEIGHT = 0.05;
@@ -186,12 +187,37 @@ function Homepage(){
             setMessage("Good!");
             setInGame(false);
             setEndTime(Date.now());
+            if(GAME_MODE !== "local") endGame();
         } else{
             setMessage("Not quite!");
         }
 
     }
-    const imgRef = useRef(null);
+
+    async function endGame(){
+
+        try{
+        const response = await fetch(`${import.meta.env.VITE_API_SERVER}/api/games/${game.gameId}/end`,
+            {method: "post"}
+        );
+
+        const data = await response.json();
+
+        if(!response.ok){
+            setMessage(data.message);
+            return;
+        }
+
+        console.log("game ended. it took you:", data.elapsedTime, "ms");
+
+        return data;
+    }catch(err){
+        setMessage(err.message);
+    }
+
+
+    }
+
     return(
 
 
