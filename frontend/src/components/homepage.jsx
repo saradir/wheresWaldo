@@ -1,6 +1,7 @@
 import crowdImg from "../assets/crowd.png";
 import Sidebar from "./sidebar";
 import { useRef, useState } from "react";
+import { useGame } from "../hooks/useGame";
 
 import "../styles/Image.css"
 import "../styles/Homepage.css"
@@ -10,16 +11,12 @@ function Homepage(){
 
     const [showHitbox, setShowHitbox] = useState(false);
     const [hitboxDims, setHitboxDims] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const [mode, setMode] = useState("play");
-    const [startPoint, setStart] = useState(null);
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
     const [message, setMessage] = useState(null);
-    const [inGame, setInGame] = useState(false);
-    const [game, setGame] = useState(null);
-    const GAME_MODE = "!local";
+
+    const [mode, setMode] = useState("play");  // Currently set manually
+    const [startPoint, setStart] = useState(null);
+    const {game, inGame, startGame, playMove, error} = useGame();
+
     const imgRef = useRef(null);
 
     const HITBOX_WIDTH = 0.05;
@@ -27,58 +24,7 @@ function Homepage(){
 
 
 
-    function createLocalGame(){
-        const demo_target = {
-            id: "001",
-            name: "overall_man",
-            left:0.431640625,
-            top: 0.7036196319750567,
-            width: 0.0869140625,
-            height: 0.2626953125
-        }
-        const gameId = "000"
-        const startTime = Date.now()
-        const endTime = null;
-        const status = "ongoing"
-        const target = demo_target
-        return {gameId, startTime, endTime, status, target};
-    }
 
-    async function fetchGame(){
-        try{
-            const response = await fetch(`${import.meta.env.VITE_API_SERVER}/api/games/new`,{
-            method: "post",
-        });
-
-        const data = await response.json();
-
-        if(!response.ok){
-            setMessage(data.message);
-            return;
-        }
-        return data;
-        }
-        catch (err){
-            setMessage(err.message);
-        }
-    }
-
-
-
-    async function handleNewGame(){
-        
-        const game = GAME_MODE === "local"
-        ? createLocalGame()
-        : await fetchGame();
-        
-        setGame(game);
-        setInGame(true);
-        
-        setStartTime(game.startTime);
-        setEndTime(null);
-        setShowHitbox(false);
-        setMessage(null);
-    }
 
     // Returns normalized coordinates between 0 and 1
     function getCoords(e){
@@ -89,8 +35,6 @@ function Homepage(){
         const rect = img.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;
         const y = (e.clientY - rect.top) / rect.height;
-
-
 
         return {
             x: Math.min(Math.max(x, 0), 1),
@@ -124,15 +68,6 @@ function Homepage(){
         }
     }
 
-    function calculateHit(coords, target) {
-    return (
-        coords.x >= target.left &&
-        coords.x <= target.left + target.width &&
-        coords.y >= target.top &&
-        coords.y <= target.top + target.height
-    );
-    }
-
     function getHitbox(coords){
 
 
@@ -156,8 +91,8 @@ function Homepage(){
         }
     }
 
-    function handleClick(e){
-
+    async function handleClick(e){
+        if(!inGame) return;
         const coords = getCoords(e);
 
         if(mode==="auth"){
@@ -179,42 +114,18 @@ function Homepage(){
         console.log(coords);
         setHitboxDims(getHitbox(coords));
 
-        // Handle user input
-        if(!inGame) return;
-        if(calculateHit(coords, game.target)) {
-            setMessage("Good!");
-            setInGame(false);
-            setEndTime(Date.now());
-            if(GAME_MODE !== "local") endGame();
-        } else{
-            setMessage("Not quite!");
-        }
-
+        const hit = await playMove(coords);
+        console.log(hit);
+        hit? setMessage("Good!") : setMessage("Not quite!");
     }
 
-    async function endGame(){
-
-        try{
-        const response = await fetch(`${import.meta.env.VITE_API_SERVER}/api/games/${game.gameId}/end`,
-            {method: "post"}
-        );
-
-        const data = await response.json();
-
-        if(!response.ok){
-            setMessage(data.message);
-            return;
-        }
-
-        console.log("game ended. it took you:", data.elapsedTime, "ms");
-
-        return data;
-    }catch(err){
-        setMessage(err.message);
+    function handleNewGame(){
+        startGame();
+        setShowHitbox(false);
+        setMessage(null);
     }
 
 
-    }
 
     return(
 
@@ -238,7 +149,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar handleNewGame={handleNewGame} startTime={startTime} endTime={endTime} message={message}/>
+                <Sidebar handleNewGame={handleNewGame} startTime={game? game.startTime: 0} endTime={game? game.endTime: 0} message={message} error={error}/>
             </div>
         </div>
     )
