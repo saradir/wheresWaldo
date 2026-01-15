@@ -11,6 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+
 }
 
 
@@ -30,7 +31,7 @@ model Target{
   topCoord Float
   width Float
   height Float
-  iconUrl String
+  iconPath String  // file path in supabase
 
   games Game[]
 }
