@@ -115,7 +115,6 @@ function Homepage(){
         setHitboxDims(getHitbox(coords));
 
         const hit = await playMove(coords);
-        console.log(hit);
         hit? setMessage("Good!") : setMessage("Not quite!");
     }
 
@@ -124,7 +123,6 @@ function Homepage(){
         setShowHitbox(false);
         setMessage(null);
     }
-
 
 
     return(
@@ -149,7 +147,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar handleNewGame={handleNewGame} startTime={game? game.startTime: 0} endTime={game? game.endTime: 0} message={message} error={error}/>
+                <Sidebar handleNewGame={handleNewGame} startTime={game? new Date(game.startTime).getTime(): 0} endTime={game? new Date(game.endTime).getTime(): 0} message={message} error={error}/>
             </div>
         </div>
     )

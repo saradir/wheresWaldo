@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 function Timer({startTime, endTime}){
 
-
+    
     const elapsed = startTime? Date.now() - startTime : 0
     const [tick, setTick] = useState(0);
 
