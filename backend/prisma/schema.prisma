@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -17,11 +17,10 @@ datasource db {
 
 model Game {
   id Int @id @default(autoincrement())
-  startedAt DateTime @default(now())
-  finishedAt DateTime?
-  status String @default("ongoing") // ongoing/abandoned/finished
-  targetId Int
-  target Target @relation(fields: [targetId], references: [id])
+  startedAt DateTime 
+  finishedAt DateTime
+  elapsedTime Int
+
 }
 
 model Target{
@@ -32,6 +31,4 @@ model Target{
   width Float
   height Float
   iconPath String  // file path in supabase
-
-  games Game[]
 }

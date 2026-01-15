@@ -1,3 +1,4 @@
+import { prisma } from "../config/prisma.js";
 const games = {}
 const targets = []
 const target_001 = {
@@ -18,7 +19,7 @@ function getTarget(){
 }
 export function startGame(req, res){
      const gameId = crypto.randomUUID();
-     const startTime = Date.now();
+     const startTime = new Date();
      const endTime = null;
      const status = "ongoing"
     const target = getTarget();
@@ -27,9 +28,9 @@ export function startGame(req, res){
     return res.json({...game, target});
 }
 
-export function endGame(req, res){
+export async function endGame(req, res, next){
 
-    const endTime = Date.now();
+    const endTime = new Date();
     const game = games[req.params.gameId];
     if(!game)  return res.status(404).json({
         message: "game not found"
@@ -40,12 +41,25 @@ export function endGame(req, res){
         });
     }
 
-    game.status = "finished";
+    game.status = "finished"; // probably no longer necessary
     game.endTime = endTime;
+    const elapsedTime = game.endTime - game.startTime;
+
+    try{
+        await prisma.game.create({
+            data:{
+                startedAt: game.startTime,
+                finishedAt: game.endTime,
+                elapsedTime
+            }
+        })
+    } catch (err){
+        next(err);
+    }
 
     return res.status(200).json({
         message: "game finished",
-        elapsedTime: endTime - game.startTime
+        elapsedTime
     });
 }
 
