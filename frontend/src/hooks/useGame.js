@@ -57,10 +57,9 @@ export function useGame(){
         setInGame(false);
     }
 
-    async function playMove(coords){
+    function playMove(coords){
         if(!inGame) return;
         if(calculateHit(coords, game.target)) {
-            await endGame();
             return true;
         }
         return false;

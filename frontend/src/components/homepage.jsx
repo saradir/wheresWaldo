@@ -15,7 +15,7 @@ function Homepage(){
 
     const [mode, setMode] = useState("play");  // Currently set manually
     const [startPoint, setStart] = useState(null);
-    const {game, inGame, startGame, playMove, error} = useGame();
+    const {game, inGame, startGame, endGame, playMove, error} = useGame();
 
     const imgRef = useRef(null);
 
@@ -114,8 +114,13 @@ function Homepage(){
         console.log(coords);
         setHitboxDims(getHitbox(coords));
 
-        const hit = await playMove(coords);
-        hit? setMessage("Good!") : setMessage("Not quite!");
+        const hit = playMove(coords);
+        if(hit){
+            setMessage("Good!");
+            endGame();
+            return;
+        }
+        else{setMessage("Not quite!");}
     }
 
     function handleNewGame(){
