@@ -1,4 +1,3 @@
-import crowdImg from "../assets/crowd.png";
 import Sidebar from "./sidebar";
 import { useRef, useState } from "react";
 import { useGame } from "../hooks/useGame";
@@ -13,9 +12,9 @@ function Homepage(){
     const [hitboxDims, setHitboxDims] = useState(null);
     const [message, setMessage] = useState(null);
 
-    const [mode, setMode] = useState("play");  // Currently set manually
+    const IS_AUTHORING = false; // used for editing mode
     const [startPoint, setStart] = useState(null);
-    const {game, inGame, startGame, endGame, playMove, error} = useGame();
+    const {game, inGame, startGame, endGame, playMove, error, } = useGame();
 
     const imgRef = useRef(null);
 
@@ -95,7 +94,7 @@ function Homepage(){
         if(!inGame) return;
         const coords = getCoords(e);
 
-        if(mode==="auth"){
+        if(IS_AUTHORING){
             
             if(!startPoint){
                 setStart(coords);
@@ -140,7 +139,7 @@ function Homepage(){
             <div className="content-container">
                 <div className="image-column">
                     <div className="image-wrapper">
-                        <img src={crowdImg} ref={imgRef} alt="crowd" onClick={(e) => handleClick(e)} />
+                        <img src={"/crowd.png"} ref={imgRef} alt="crowd" onClick={(e) => handleClick(e)} />
                         <div className="overlay">
                             { showHitbox && <div className="hitbox" style={{
                                 left: `${hitboxDims.left}px`,
@@ -152,7 +151,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar handleNewGame={handleNewGame} startTime={game? new Date(game.startTime).getTime(): 0} endTime={game? new Date(game.endTime).getTime(): 0} message={message} error={error}/>
+                <Sidebar handleNewGame={handleNewGame} startTime={game? new Date(game.startTime).getTime(): 0} endTime={game? new Date(game.endTime).getTime(): 0} message={message} error={error} iconId={game?.target.id || "000"}/>
             </div>
         </div>
     )

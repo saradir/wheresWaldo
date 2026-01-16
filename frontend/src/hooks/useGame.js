@@ -80,6 +80,6 @@ export function useGame(){
         error,
         startGame,
         endGame,
-        playMove
+        playMove,
     }
 }

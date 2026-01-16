@@ -1,13 +1,15 @@
-import icon from "../assets/overall_man_icon.png"
+import "../styles/Sidebar.css"
+
+
 import Timer from "./Timer";
-function Sidebar({message, handleNewGame, startTime, endTime, error}) {
+function Sidebar({message, handleNewGame, startTime, endTime, error, iconId}) {
 
-
+ 
   return (
     <aside className="sidebar">
       <h2>Find this person!</h2>
 
-      <img src={icon} alt="Target person to find" />
+      <img src={`/icons/${iconId}.png`} alt="Target person to find" />
 
       <p>
         Find the person shown in the icon in the picture on the left and click them.

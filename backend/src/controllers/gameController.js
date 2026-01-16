@@ -1,31 +1,25 @@
 import { prisma } from "../config/prisma.js";
-const games = {}
-const targets = []
-const target_001 = {
-            id: "001",
-            name: "overall_man",
-            left:0.431640625,
-            top: 0.7036196319750567,
-            width: 0.0869140625,
-            height: 0.2626953125
-        }
+import targets from "../config/targets.js";
+import { getIconSignedUrl } from "../services/iconService.js";
 
-targets.push(target_001);
+const games = {}
 
 // Randomly selects target to find
 function getTarget(){
+    console.log(targets);
     const index = Math.floor(Math.random() * targets.length);
     return targets[index];
 }
-export function startGame(req, res){
+export async function startGame(req, res){
      const gameId = crypto.randomUUID();
      const startTime = new Date();
      const endTime = null;
      const status = "ongoing"
     const target = getTarget();
+    // const iconUrl = await getIconSignedUrl(`targets/${target.id}.png`);
     const game = {gameId, startTime, endTime, status};
     games[gameId] = game;
-    return res.json({...game, target});
+    return res.json({...game, target, });
 }
 
 export async function endGame(req, res, next){
