@@ -12,10 +12,10 @@ function Homepage(){
     const [showHitbox, setShowHitbox] = useState(false);
     const [hitboxDims, setHitboxDims] = useState(null);
     const [message, setMessage] = useState(null);
-
+    const [timerActive, setTimerActive] = useState(false);
     const IS_AUTHORING = false; // used for editing mode
     const [startPoint, setStart] = useState(null);
-    const {game, inGame, startGame, endGame, playMove, error, } = useGame();
+    const {game, inGame, startGame, endGame, playMove, error, submitScore } = useGame();
 
     const [showScoreWindow, setShowScoreWindow] = useState(false);
 
@@ -118,6 +118,7 @@ function Homepage(){
         const hit = playMove(coords);
         if(hit){
             setMessage("Good!");
+            setTimerActive(false);
             endGame();
             setShowScoreWindow(true);
             return;
@@ -127,8 +128,14 @@ function Homepage(){
 
     function handleNewGame(){
         startGame();
+        setTimerActive(true);
         setShowHitbox(false);
         setMessage(null);
+    }
+
+    async function handleSubmitScore(name){
+        await submitScore(name);
+        setShowScoreWindow(false);
     }
 
 
@@ -142,7 +149,7 @@ function Homepage(){
 
             {showScoreWindow && 
             <div className="backdrop" onClick={() => setShowScoreWindow(false)}>
-                <ScoreWindow score={game.score}/>
+                <ScoreWindow score={game.score} handleSubmit={handleSubmitScore}/>
             </div>
             }
             <div className="content-container">
@@ -161,7 +168,7 @@ function Homepage(){
                         </div>
                     </div>
                 </div>
-                <Sidebar handleNewGame={handleNewGame} startTime={game? new Date(game.startTime).getTime(): 0} endTime={game? new Date(game.endTime).getTime(): 0} message={message} error={error} iconId={game?.target.id || "000"}/>
+                <Sidebar handleNewGame={handleNewGame} startTime={game? new Date(game.startTime).getTime(): 0} endTime={game? new Date(game.endTime).getTime(): 0} message={message} error={error} iconId={game?.target.id || "000"} timerActive={timerActive}/>
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Timer({startTime, endTime}){
+function Timer({startTime, endTime, active}){
 
     
     const elapsed = startTime? Date.now() - startTime : 0
@@ -17,11 +17,11 @@ function Timer({startTime, endTime}){
         return `${minutesString}:${secondsString}`
     }
     useEffect(() => {
-        if(!startTime || endTime) return;
+        if(!active) return;
         const interval = setInterval(() => setTick(v => v + 1), 1000);
     
         return () => clearInterval(interval);
-    }, [startTime, endTime]);
+    });
 
     return(
         endTime

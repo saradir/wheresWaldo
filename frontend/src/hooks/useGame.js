@@ -56,7 +56,7 @@ export function useGame(){
         if(!game) return;
         const endTime = Date.now();
         const result = await endGameOnServer();
-        setGame({...game, endTime, score: result.elapsedTime})
+        setGame({...game, endTime: result.endTime, score: result.elapsedTime, id: result.gameId})
         setInGame(false);
     }
 
@@ -77,6 +77,29 @@ export function useGame(){
         );
     }
 
+    async function submitScore(name){
+        try{
+            const response = await fetch(`${import.meta.env.VITE_API_SERVER}/api/games/${game.id}/saveRecord`,
+            {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },            
+                body: JSON.stringify({playerName: name}),
+                }
+            );
+            const data =  await response.json();
+
+            if(!response.ok){
+                setError(data.message);
+                return;
+            }
+            return data;
+        } catch (err){
+            setError(err.message);
+        }
+    }
+
     return{
         game, 
         inGame,
@@ -84,5 +107,6 @@ export function useGame(){
         startGame,
         endGame,
         playMove,
+        submitScore
     }
 }

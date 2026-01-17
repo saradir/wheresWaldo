@@ -2,7 +2,7 @@ import "../styles/Sidebar.css"
 
 
 import Timer from "./Timer";
-function Sidebar({message, handleNewGame, startTime, endTime, error, iconId}) {
+function Sidebar({message, handleNewGame, startTime, endTime, error, iconId, timerActive}) {
 
  
   return (
@@ -16,7 +16,7 @@ function Sidebar({message, handleNewGame, startTime, endTime, error, iconId}) {
         Click “New Game” to start.
       </p>
 
-      <Timer startTime={startTime} endTime={endTime} />
+      <Timer startTime={startTime} endTime={endTime} active={timerActive} />
 
       {message && <div className="message">{message}</div>}
       {error && <div className="error-message">{error}</div>}

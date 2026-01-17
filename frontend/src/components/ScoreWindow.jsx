@@ -1,7 +1,9 @@
+import { useState } from "react";
 import "../styles/ScoreWindow.css"
 
-function ScoreWindow({score}){
+function ScoreWindow({score, handleSubmit}){
 
+    const [name, setName] = useState('');
     if(!score) return null;
     return(
         <div className="score-window" onClick={e => e.stopPropagation()}>
@@ -12,10 +14,10 @@ function ScoreWindow({score}){
                 <span className="time"> {score}ms</span>
             </p>
               <p>Enter your name to submit score:</p>
-              <input type="text" id="name" name="name" required></input>
+              <input type="text" id="name" name="name" value={name} onChange={e => setName(e.target.value)} required></input>
           </div>
             <div className="controls">
-                <button type="button">Submit result</button>
+                <button type="button" onClick={() => handleSubmit(name)}>Submit result</button>
                 <button type="button">Skip</button>
             </div>
         </div>
