@@ -54,7 +54,6 @@ export function useGame(){
 
     async function endGame(){
         if(!game) return;
-        const endTime = Date.now();
         const result = await endGameOnServer();
         setGame({...game, endTime: result.endTime, score: result.elapsedTime, id: result.gameId})
         setInGame(false);

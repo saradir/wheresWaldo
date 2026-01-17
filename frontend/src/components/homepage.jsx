@@ -126,8 +126,8 @@ function Homepage(){
         else{setMessage("Not quite!");}
     }
 
-    function handleNewGame(){
-        startGame();
+    async function handleNewGame(){
+        await startGame();
         setTimerActive(true);
         setShowHitbox(false);
         setMessage(null);
