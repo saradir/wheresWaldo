@@ -47,6 +47,7 @@ export function useGame(){
         if (!game) return;       
         setGame(game);
         setInGame(true);
+        setError(null);
     }
 
 
