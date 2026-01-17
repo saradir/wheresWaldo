@@ -17,6 +17,8 @@ function Homepage(){
     const [startPoint, setStart] = useState(null);
     const {game, inGame, startGame, endGame, playMove, error, } = useGame();
 
+    const [showScoreWindow, setShowScoreWindow] = useState(false);
+
     const imgRef = useRef(null);
 
     const HITBOX_WIDTH = 0.05;
@@ -117,6 +119,7 @@ function Homepage(){
         if(hit){
             setMessage("Good!");
             endGame();
+            setShowScoreWindow(true);
             return;
         }
         else{setMessage("Not quite!");}
@@ -136,7 +139,12 @@ function Homepage(){
             <nav>
                 placeholder
             </nav>
-            <ScoreWindow score={game?.score}/>
+
+            {showScoreWindow && 
+            <div className="backdrop" onClick={() => setShowScoreWindow(false)}>
+                <ScoreWindow score={game.score}/>
+            </div>
+            }
             <div className="content-container">
                 
                 <div className="image-column">
