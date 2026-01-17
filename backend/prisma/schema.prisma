@@ -20,15 +20,16 @@ model Game {
   startedAt DateTime 
   finishedAt DateTime
   elapsedTime Int
-
+  score  Score?
 }
 
-model Target{
-  id Int @id 
-  name String
-  leftCoord Float
-  topCoord Float
-  width Float
-  height Float
-  iconPath String  // file path in supabase
+
+
+model Score{
+  id Int @id @default(autoincrement())
+  time Int
+  createdAt DateTime @default(now())
+  gameId Int @unique
+  game Game @relation(references: [id], fields: [gameId])
+  playerName String
 }

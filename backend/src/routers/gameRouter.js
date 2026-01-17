@@ -5,5 +5,7 @@ const gameRouter = express.Router();
 
 gameRouter.post("/new", gameController.startGame);
 gameRouter.post("/:gameId/end", gameController.endGame);
+gameRouter.post("/:gameId/saveRecord", gameController.saveRecord);
+gameRouter.get("/leaderboard", gameController.getLeaderboard);
 
 export default gameRouter;
