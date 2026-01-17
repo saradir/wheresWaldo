@@ -110,7 +110,6 @@ function Homepage(){
             }
         }
         setShowHitbox(true);
-        console.log(coords);
         setHitboxDims(getHitbox(coords));
 
         const hit = playMove(coords);

@@ -6,7 +6,6 @@ const games = {}
 
 // Randomly selects target to find
 function getTarget(){
-    console.log(targets);
     const index = Math.floor(Math.random() * targets.length);
     return targets[index];
 }

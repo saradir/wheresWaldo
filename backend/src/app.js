@@ -7,7 +7,6 @@ import { getIconSignedUrl } from "./services/iconService.js";
 
 
 const app = express();
-console.log(corsOptions);
 app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 3000;
