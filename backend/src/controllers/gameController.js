@@ -13,10 +13,10 @@ export async function startGame(req, res){
      const gameId = crypto.randomUUID();
      const startTime = new Date();
      const endTime = null;
-     const status = "ongoing"
+    const score = null;
     const target = getTarget();
     // const iconUrl = await getIconSignedUrl(`targets/${target.id}.png`);
-    const game = {gameId, startTime, endTime, status};
+    const game = {gameId, startTime, endTime, score};
     games[gameId] = game;
     return res.json({...game, target, });
 }
@@ -33,8 +33,6 @@ export async function endGame(req, res, next){
             message: "invalid request"
         });
     }
-
-    game.status = "finished"; // probably no longer necessary
     game.endTime = endTime;
     const elapsedTime = game.endTime - game.startTime;
 
@@ -46,12 +44,12 @@ export async function endGame(req, res, next){
                 elapsedTime
             }
         });
-        console.log(row.id);
         return res.status(200).json({
-        message: "game finished",
-        elapsedTime,
-        gameId: row.id
-    });
+            message: "game finished",
+            elapsedTime,
+            gameId: row.id,
+            endTime
+        });
     }
     catch (err){
         next(err);

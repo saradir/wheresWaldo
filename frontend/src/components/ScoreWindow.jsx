@@ -18,7 +18,6 @@ function ScoreWindow({score, handleSubmit}){
           </div>
             <div className="controls">
                 <button type="button" onClick={() => handleSubmit(name)}>Submit result</button>
-                <button type="button">Skip</button>
             </div>
         </div>
     )
