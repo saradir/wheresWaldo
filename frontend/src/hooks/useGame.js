@@ -4,6 +4,7 @@ export function useGame(){
     const [error, setError] = useState(null);
     const [inGame, setInGame] = useState(false);
     const [game, setGame] = useState(null);
+    
 
     async function fetchGame(){
         try{
@@ -53,8 +54,9 @@ export function useGame(){
 
     async function endGame(){
         if(!game) return;
-        setGame({...game, endTime: Date.now()});
-        await endGameOnServer();
+        const endTime = Date.now();
+        const result = await endGameOnServer();
+        setGame({...game, endTime, score: result.elapsedTime})
         setInGame(false);
     }
 

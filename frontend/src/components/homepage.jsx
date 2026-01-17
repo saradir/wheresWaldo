@@ -5,6 +5,7 @@ import { useGame } from "../hooks/useGame";
 import "../styles/Image.css"
 import "../styles/Homepage.css"
 import "../styles/Sidebar.css"
+import ScoreWindow from "./ScoreWindow";
 
 function Homepage(){
 
@@ -135,7 +136,9 @@ function Homepage(){
             <nav>
                 placeholder
             </nav>
+            <ScoreWindow score={game?.score}/>
             <div className="content-container">
+                
                 <div className="image-column">
                     <div className="image-wrapper">
                         <img src={"/crowd.png"} ref={imgRef} alt="crowd" onClick={(e) => handleClick(e)} />
