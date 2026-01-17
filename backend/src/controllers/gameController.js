@@ -39,20 +39,76 @@ export async function endGame(req, res, next){
     const elapsedTime = game.endTime - game.startTime;
 
     try{
-        await prisma.game.create({
+        const row = await prisma.game.create({
             data:{
                 startedAt: game.startTime,
                 finishedAt: game.endTime,
                 elapsedTime
             }
-        })
+        });
+        console.log(row.id);
+        return res.status(200).json({
+        message: "game finished",
+        elapsedTime,
+        gameId: row.id
+    });
+    }
+    catch (err){
+        next(err);
+    }
+}
+
+export async function saveRecord(req, res, next){
+
+    try{
+        const game = await prisma.game.findUnique({
+            where:{
+                id: Number(req.params.gameId)
+            }
+        });
+
+        if(!game){
+            return res.status(404).json({
+                message: "invalid request"
+            });
+        }
+
+        const score = await prisma.score.create({
+            data:{
+                time: game.elapsedTime,
+                playerName: req.body.playerName,
+                gameId: game.id              
+            }
+        });
+
+        return res.status(200).json({
+            score
+        });
     } catch (err){
         next(err);
     }
+}
 
-    return res.status(200).json({
-        message: "game finished",
-        elapsedTime
-    });
+// return top 10 results
+export async function getLeaderboard(req, res, next){
+    try{
+        const leaderboard = await prisma.score.findMany({
+        orderBy: {
+            time: "asc",
+        },
+        select: {
+            playerName: true,
+            time: true,
+            createdAt: true
+        },
+        take: 10,
+        });
+
+        return res.status(200).json(
+            leaderboard
+        )
+    } catch (err){
+        next(err);
+    }
 }
 
