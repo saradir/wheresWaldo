@@ -95,6 +95,7 @@ export async function getLeaderboard(req, res, next){
             time: "asc",
         },
         select: {
+            id: true,
             playerName: true,
             time: true,
             createdAt: true
