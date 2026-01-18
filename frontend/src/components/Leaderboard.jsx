@@ -45,7 +45,7 @@ function Leaderboard(){
                     </thead>
                     <tbody>
                         {scores?.map((score, i) => (
-                            <tr >
+                            <tr key={score.id}>
                                 <td>{i + 1}</td>
                                 <td>{score.playerName}</td>
                                 <td>{score.time}</td>
