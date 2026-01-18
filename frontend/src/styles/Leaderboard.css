@@ -1,0 +1,61 @@
+/* Leaderboard table */
+.leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Header */
+.leaderboard thead th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.75rem 0.75rem;
+  border-bottom: 2px solid #e5e7eb; /* light gray */
+  color: #111827;
+}
+
+/* Body rows */
+.leaderboard tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.leaderboard tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Cells */
+.leaderboard td {
+  padding: 0.65rem 0.75rem;
+  vertical-align: middle;
+}
+
+/* Subtle hover (desktop affordance) */
+.leaderboard tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Rank column */
+.leaderboard td.rank {
+  width: 3rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Time column — improves scanability */
+.leaderboard td.time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-align: right;
+}
+
+/* Header alignment for time column */
+.leaderboard th.time {
+  text-align: right;
+}
+
+/* Optional: empty / loading state */
+.leaderboard-empty {
+  margin-top: 1rem;
+  color: #6b7280;
+  font-style: italic;
+}
