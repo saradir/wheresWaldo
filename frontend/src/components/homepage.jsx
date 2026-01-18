@@ -143,9 +143,6 @@ function Homepage(){
 
 
         <div className="homepage">
-            <nav>
-                placeholder
-            </nav>
 
             {showScoreWindow && 
             <div className="backdrop" onClick={() => setShowScoreWindow(false)}>
