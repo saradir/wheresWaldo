@@ -4,11 +4,14 @@ function Navbar(){
 
 
     return(
-        <nav className="navbar">
-            <Link to={'/'}>Homepage </Link>
-            <Link to={'/leaderboard'}>Leaderboard</Link>
+        <div className="navbar">
+            
+            <nav className="nav">
+                <Link to={'/'}>Homepage </Link>
+                <Link to={'/leaderboard'}>Leaderboard</Link>
+            </nav>
 
-        </nav>
+        </div>
     )
 }
 

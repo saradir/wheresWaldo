@@ -1,23 +1,51 @@
-/* Leaderboard table */
+/* =========================
+   LEADERBOARD TABLE (MATCHES #1e1e1e THEME)
+   ========================= */
+
+.leaderboard-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+.leaderboard-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.leaderboard-container h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
 .leaderboard {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
   font-size: 0.95rem;
+  max-width: 900px;
+
+  background-color: #1e1e1e;
+  color: #e0e0e0;
 }
 
 /* Header */
 .leaderboard thead th {
   text-align: left;
   font-weight: 600;
-  padding: 0.75rem 0.75rem;
-  border-bottom: 2px solid #e5e7eb; /* light gray */
-  color: #111827;
+  padding: 0.75rem;
+  border-bottom: 2px solid #2a2a2a;
+  color: #e0e0e0;
 }
 
-/* Body rows */
+/* Rows */
 .leaderboard tbody tr {
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #2a2a2a;
 }
 
 .leaderboard tbody tr:last-child {
@@ -28,34 +56,44 @@
 .leaderboard td {
   padding: 0.65rem 0.75rem;
   vertical-align: middle;
+  color: #cfcfcf;
 }
 
-/* Subtle hover (desktop affordance) */
+/* Hover affordance */
 .leaderboard tbody tr:hover {
-  background-color: #f9fafb;
+  background-color: #242424; /* subtle lift from #1e1e1e */
 }
 
 /* Rank column */
 .leaderboard td.rank {
   width: 3rem;
   font-weight: 600;
-  color: #374151;
+  color: #e0e0e0;
 }
 
-/* Time column — improves scanability */
+/* Time column */
+.leaderboard th.time,
+.leaderboard td.time {
+  text-align: right;
+}
+
 .leaderboard td.time {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  text-align: right;
+  color: #e0e0e0;
 }
 
-/* Header alignment for time column */
-.leaderboard th.time {
-  text-align: right;
+/* Optional: highlight the current player's row */
+.leaderboard tr.is-me td {
+  color: #e0e0e0;
 }
 
-/* Optional: empty / loading state */
+.leaderboard tr.is-me {
+  background-color: rgba(255, 80, 80, 0.08);
+}
+
+/* Empty / loading */
 .leaderboard-empty {
   margin-top: 1rem;
-  color: #6b7280;
+  color: #bdbdbd;
   font-style: italic;
 }

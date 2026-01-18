@@ -32,27 +32,28 @@ function Leaderboard(){
     if(loading) return <p>Loading...</p>
 
     return(
-        <div className="leaderboard-container">
-            <h1>Leaderboard</h1>
-            <table className="leaderboard">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {scores?.map((score, i) => (
+        <div className="leaderboard-page">
+            <div className="leaderboard-container">
+                <h1>Leaderboard</h1>
+                <table className="leaderboard">
+                    <thead>
                         <tr>
-                            <td>{i + 1}</td>
-                            <td>{score.playerName}</td>
-                            <td>{score.time}</td>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Time</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {scores?.map((score, i) => (
+                            <tr >
+                                <td>{i + 1}</td>
+                                <td>{score.playerName}</td>
+                                <td>{score.time}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
