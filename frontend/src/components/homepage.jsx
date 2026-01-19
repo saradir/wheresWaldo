@@ -5,7 +5,8 @@ import { useGame } from "../hooks/useGame";
 import "../styles/Image.css"
 import "../styles/Homepage.css"
 import "../styles/Sidebar.css"
-import ScoreWindow from "./ScoreWindow";
+import ScoreForm from "./ScoreForm";
+import { Modal } from "./Modal";
 
 function Homepage(){
 
@@ -13,11 +14,12 @@ function Homepage(){
     const [hitboxDims, setHitboxDims] = useState(null);
     const [message, setMessage] = useState(null);
     const [timerActive, setTimerActive] = useState(false);
+    const [showModal, setShowModal] = useState(null); // "leaderboard"/"scoreform"
     const IS_AUTHORING = false; // used for editing mode
     const [startPoint, setStart] = useState(null);
     const {game, inGame, startGame, endGame, playMove, error, submitScore } = useGame();
 
-    const [showScoreWindow, setShowScoreWindow] = useState(false);
+    const [showScoreForm, setShowScoreForm] = useState(false);
 
     const imgRef = useRef(null);
 
@@ -120,7 +122,8 @@ function Homepage(){
             setMessage("Good!");
             setTimerActive(false);
             endGame();
-            setShowScoreWindow(true);
+            setShowScoreForm(true);
+            setShowModal("scoreform")
             return;
         }
         else{setMessage("Not quite!");}
@@ -135,7 +138,7 @@ function Homepage(){
 
     async function handleSubmitScore(name){
         await submitScore(name);
-        setShowScoreWindow(false);
+        setShowModal(null);
     }
 
 
@@ -144,11 +147,13 @@ function Homepage(){
 
         <div className="homepage">
 
-            {showScoreWindow && 
-            <div className="backdrop" onClick={() => setShowScoreWindow(false)}>
-                <ScoreWindow score={game.score} handleSubmit={handleSubmitScore}/>
-            </div>
+            {showModal === "scoreform" && 
+                <Modal setShowModal={setShowModal}>
+                    <ScoreForm score={game.score} handleSubmit={handleSubmitScore}/>
+                </Modal>
             }
+
+            
             <div className="content-container">
                 
                 <div className="image-column">

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import "../styles/ScoreWindow.css"
+import "../styles/ScoreForm.css"
 
-function ScoreWindow({score, handleSubmit}){
+function ScoreForm({score, handleSubmit}){
 
     const [name, setName] = useState('');
     if(!score) return null;
     return(
-        <div className="score-window" onClick={e => e.stopPropagation()}>
+        <div className="score-window" >
           <div className="content">
               
             <p>
@@ -23,4 +23,4 @@ function ScoreWindow({score, handleSubmit}){
     )
 }
 
-export default ScoreWindow;
+export default ScoreForm;
