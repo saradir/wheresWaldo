@@ -15,7 +15,6 @@ export async function startGame(req, res){
      const endTime = null;
     const score = null;
     const target = getTarget();
-    // const iconUrl = await getIconSignedUrl(`targets/${target.id}.png`);
     const game = {gameId, startTime, endTime, score};
     games[gameId] = game;
     return res.json({...game, target, });
@@ -79,8 +78,26 @@ export async function saveRecord(req, res, next){
             }
         });
 
+
+        // Calculate rank for current score
+        const betterScoresCount = await prisma.score.count({
+           where: {
+                OR: [
+                    { time: { lt: score.time } },
+                    {
+                    time: score.time,
+                    createdAt: { lt: score.createdAt }
+                    }
+                ]
+            }
+
+        });
+
+        const rankedScore = {...score, rank: betterScoresCount + 1}
+
+
         return res.status(200).json({
-            score
+            score:rankedScore
         });
     } catch (err){
         next(err);
