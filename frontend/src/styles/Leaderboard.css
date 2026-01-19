@@ -83,11 +83,11 @@
 }
 
 /* Optional: highlight the current player's row */
-.leaderboard tr.is-me td {
+.leaderboard tr.current-score td {
   color: #e0e0e0;
 }
 
-.leaderboard tr.is-me {
+.leaderboard tr.current-score {
   background-color: rgba(255, 80, 80, 0.08);
 }
 

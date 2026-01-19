@@ -21,6 +21,7 @@ function Homepage(){
     const IS_AUTHORING = false; // used for editing mode
     const [startPoint, setStart] = useState(null);
     const {game, inGame, startGame, endGame, playMove, error, submitScore } = useGame();
+    const [currentScore, setCurrentScore] = useState(null);
 
     const imgRef = useRef(null);
 
@@ -137,7 +138,8 @@ function Homepage(){
     }
 
     async function handleSubmitScore(name){
-        await submitScore(name);
+        const score = await submitScore(name);
+        setCurrentScore(score);
         openLeaderboardModal();
     }
 
@@ -146,6 +148,7 @@ function Homepage(){
             const data = await fetchScores();
             setScores(data);
             setShowModal("leaderboard");
+  
         } catch (err){
             setMessage(err.message);
         }
@@ -165,7 +168,7 @@ function Homepage(){
 
             {showModal === "leaderboard" &&
                 <Modal setShowModal={setShowModal}>
-                    <LeaderboardTable scores={scores} handleSubmit={handleSubmitScore}/>
+                    <LeaderboardTable scores={scores} currentScore={currentScore}/>
                 </Modal>
             }
             <div className="content-container">
