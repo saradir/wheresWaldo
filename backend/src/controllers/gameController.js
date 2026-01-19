@@ -96,9 +96,9 @@ export async function saveRecord(req, res, next){
         const rankedScore = {...score, rank: betterScoresCount + 1}
 
 
-        return res.status(200).json({
-            score:rankedScore
-        });
+        return res.status(200).json(
+            rankedScore
+        );
     } catch (err){
         next(err);
     }
