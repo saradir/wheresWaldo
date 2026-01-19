@@ -7,6 +7,8 @@ import "../styles/Homepage.css"
 import "../styles/Sidebar.css"
 import ScoreForm from "./ScoreForm";
 import { Modal } from "./Modal";
+import LeaderboardTable from "./LeaderboardTable";
+import { fetchScores } from "../services/leaderboardService";
 
 function Homepage(){
 
@@ -15,11 +17,10 @@ function Homepage(){
     const [message, setMessage] = useState(null);
     const [timerActive, setTimerActive] = useState(false);
     const [showModal, setShowModal] = useState(null); // "leaderboard"/"scoreform"
+    const [scores, setScores] = useState(null);
     const IS_AUTHORING = false; // used for editing mode
     const [startPoint, setStart] = useState(null);
     const {game, inGame, startGame, endGame, playMove, error, submitScore } = useGame();
-
-    const [showScoreForm, setShowScoreForm] = useState(false);
 
     const imgRef = useRef(null);
 
@@ -122,7 +123,6 @@ function Homepage(){
             setMessage("Good!");
             setTimerActive(false);
             endGame();
-            setShowScoreForm(true);
             setShowModal("scoreform")
             return;
         }
@@ -138,7 +138,17 @@ function Homepage(){
 
     async function handleSubmitScore(name){
         await submitScore(name);
-        setShowModal(null);
+        openLeaderboardModal();
+    }
+
+    async function openLeaderboardModal() {
+        try{
+            const data = await fetchScores();
+            setScores(data);
+            setShowModal("leaderboard");
+        } catch (err){
+            setMessage(err.message);
+        }
     }
 
 
@@ -153,7 +163,11 @@ function Homepage(){
                 </Modal>
             }
 
-            
+            {showModal === "leaderboard" &&
+                <Modal setShowModal={setShowModal}>
+                    <LeaderboardTable scores={scores} handleSubmit={handleSubmitScore}/>
+                </Modal>
+            }
             <div className="content-container">
                 
                 <div className="image-column">
