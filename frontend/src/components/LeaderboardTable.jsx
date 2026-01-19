@@ -18,7 +18,7 @@ function LeaderboardTable({scores, currentScore}){
                 ))}
 
                 {/* display gap rows if rank is below 10 */}
-                {currentScore.rank > 11 && (
+                {currentScore?.rank > 11 && (
                     <>
                         <tr className="leaderboard-gap">
                         <td colSpan="3">⋯</td>
