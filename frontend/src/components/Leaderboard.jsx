@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/Leaderboard.css"
+import LeaderboardTable from "./LeaderboardTable.jsx"
+
 function Leaderboard(){
     const [error, setError] = useState(null);
     const [scores, setScores] = useState(null);
@@ -35,24 +37,8 @@ function Leaderboard(){
         <div className="leaderboard-page">
             <div className="leaderboard-container">
                 <h1>Leaderboard</h1>
-                <table className="leaderboard">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Name</th>
-                            <th className="time">Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {scores?.map((score, i) => (
-                            <tr key={score.id}>
-                                <td className="rank">{i + 1}</td>
-                                <td className="name">{score.playerName}</td>
-                                <td className="time">{score.time}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <LeaderboardTable scores={scores} />
+
             </div>
         </div>
     );
