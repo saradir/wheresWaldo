@@ -14,7 +14,8 @@ function ScoreForm({score, handleSubmit}){
                 <span className="time"> {score}ms</span>
             </p>
               <p>Enter your name to submit score:</p>
-              <input type="text" id="name" name="name" value={name} onChange={e => setName(e.target.value)} required></input>
+              <input type="text" id="name" name="name"  value={name} onChange={e => setName(e.target.value)}   maxLength={20}
+                 minLength={1} required></input>
           </div>
             <div className="controls">
                 <button type="button" onClick={() => handleSubmit(name)}>Submit result</button>
