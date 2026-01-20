@@ -1,4 +1,4 @@
-import Sidebar from "./sidebar";
+import Sidebar from "./Sidebar";
 import { useRef, useState } from "react";
 import { useGame } from "../hooks/useGame";
 
